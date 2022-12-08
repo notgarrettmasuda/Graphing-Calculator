@@ -4,9 +4,12 @@
 ## Name: <ins> your_name_goes_here </ins>
 
 ## Features
-
+Version 1.0
 - Not Implemented:
   - what features have been implemented
+
+
+
 
 <br><br>
 
@@ -22,6 +25,7 @@
 
 - Bugs
   - Known bugs
+  
 
 <br><br>
 
