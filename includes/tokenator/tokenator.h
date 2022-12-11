@@ -121,6 +121,14 @@ Queue<Token *> tokenator(string y_function)
             double num = stod(temp);
             res.push(new Integer(num));
         }
+        else if (y_function[index] == 'p')
+        {
+            index++;
+            if (y_function[index] == 'i')
+            {
+                res.push(new Integer(M_PI));
+            }
+        }
         index++;
     }
     return res;

@@ -21,7 +21,7 @@ int main()
 
     //declare a window object:
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT),
-                                                      "JAVA IS FOR WUSSIES!");
+                                                      "Graphing Calculator");
     //
     //VideoMode class has functions to detect screen size etc.
     //RenderWindow constructor has a third arguments to set style
@@ -86,20 +86,31 @@ int main()
     x_label.setCharacterSize(24);
     x_label.move(sf::Vector2f(SCREEN_WIDTH - (SCREEN_WIDTH / 4), (SCREEN_HEIGHT / 2) - 15));
     
+    sf::Text functions_label;
+    functions_label.setFont(font);
+    functions_label.setString("Functions:");
+    functions_label.setCharacterSize(18);
+    functions_label.setPosition(SCREEN_WIDTH - 150, 75);
 
     Line y_line;
 
-    Textbox textbox1(SCREEN_WIDTH - 200, 20, 24, false, font, 12);
+    Button y_line_delete_b;
+
+    Textbox y_textbox(SCREEN_WIDTH - 200, 20, 24, true, font, 20);
     
-    Button tb1_button(SCREEN_WIDTH - 200, 10, 190, 50, &font, "", sf::Color(200, 200, 200), sf::Color(100, 100, 100), sf::Color(50, 50, 50));
+    Button y_button(SCREEN_WIDTH - 200, 10, 190, 50, &font, "", sf::Color(150, 150, 150), sf::Color(100, 100, 100), sf::Color(50, 50, 50));
+
+    Button reset_all(SCREEN_WIDTH - 200, SCREEN_HEIGHT - 60, 190, 50, &font, "RESET ALL", sf::Color(150, 150, 150), sf::Color(100, 100, 100), sf::Color(50, 50, 50));
+
+    //Button test(SCREEN_WIDTH - 200, 100, 190, 50, &font, "", sf::Color(150, 150, 150), sf::Color(100, 100, 100), sf::Color(50, 50, 50));
 
     vector<Line> lines;
+
+    vector<Button> delete_lines;
     // run the program as long as the window is open
     // this is your main loop:
     while (window.isOpen()){
-        cout<<"looooping..."<<endl;
         // check all the window's events that were triggered since the last iteration of the loop
-        
         sf::Event event;
 
         //go through all the pending events: keyboard, mouse, close, resize, etc.
@@ -117,23 +128,29 @@ int main()
                 break;
 
             case sf::Event::TextEntered:
-                textbox1.typed_on(event);
+                y_textbox.typed_on(event);
 
             case sf::Event::MouseButtonPressed:
-                if (event.mouseButton.button == sf::Mouse::Left && !tb1_button.is_pressed()) 
+                if (event.mouseButton.button == sf::Mouse::Left && !y_button.is_pressed()) 
                 {
-                    textbox1.setSelected(false);
+                    y_textbox.setSelected(false);
                 }
 
             case sf::Event::KeyPressed:
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
                 {
-                    if (textbox1.get_text().length() > 0)
+                    if (y_textbox.get_text().length() > 0)
                     {
-                        string y_function = textbox1.get_text();
-                        Queue<Token *> infix = tokenator(y_function);
-                        y_line = Line(infix, -350, 350); 
-                        lines.push_back(y_line);
+                        if (lines.size() < 9)
+                        {
+                            string y_function = y_textbox.get_text();
+                            int delete_button_y_coord = 110 + (lines.size() * 70);
+                            y_line_delete_b = Button(SCREEN_WIDTH - 200, delete_button_y_coord, 190, 50, &font, y_function, sf::Color(160, 210, 187), sf::Color(110, 160, 137), sf::Color(60, 110, 87));
+                            Queue<Token *> infix = tokenator(y_function);
+                            y_line = Line(infix, -350, 350); 
+                            lines.push_back(y_line);
+                            delete_lines.push_back(y_line_delete_b);
+                        }
                     }
                 }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -145,9 +162,31 @@ int main()
 
             }
         }
-        if (tb1_button.is_pressed())
+        if (y_button.is_pressed())
         {
-            textbox1.setSelected(true);
+            y_textbox.setSelected(true);
+        }
+        else if (reset_all.is_pressed())
+        {
+            lines.clear();
+        }
+        for (int i = 0; i < lines.size(); i++)
+        {
+            if (delete_lines[i].is_pressed())
+            {
+                while (delete_lines[i].is_pressed())
+                {
+                    sf::Vector2f mouse_pos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+                    delete_lines[i].update(mouse_pos);
+                }
+                lines.erase(lines.begin() + i);
+                delete_lines.erase(delete_lines.begin() + i);
+                for (int j = i; i < lines.size(); i++)
+                {
+                    int delete_button_y_coord = 110 + (i * 70);
+                    delete_lines[i].update_position(SCREEN_WIDTH - 200, delete_button_y_coord);
+                }
+            }
         }
 
         // you HAVE TO clear your window on every iteration of this while.
@@ -160,13 +199,18 @@ int main()
         window.draw(y_axis);
         window.draw(y_label);
         window.draw(x_label);
+        window.draw(functions_label);
         for (int i = 0; i < lines.size(); i++)
         {
             lines[i].draw(window);
+            delete_lines[i].update(mouse_pos);
+            delete_lines[i].draw(window);
         }
-        tb1_button.update(mouse_pos);
-        tb1_button.draw(window);
-        textbox1.draw(window);
+        y_button.update(mouse_pos);
+        y_button.draw(window);
+        reset_all.update(mouse_pos);
+        reset_all.draw(window);
+        y_textbox.draw(window);
         window.display();
     }
 

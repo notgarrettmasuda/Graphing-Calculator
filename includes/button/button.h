@@ -39,7 +39,7 @@ class Button
 
             shape.setFillColor(this->default_color);
             shape.setOutlineThickness(10);
-            shape.setOutlineColor(sf::Color(50, 50, 50));
+            shape.setOutlineColor(sf::Color(60, 60, 60));
         }
 
         const bool is_pressed() const
@@ -55,6 +55,14 @@ class Button
         {
             _window.draw(shape);
             _window.draw(this->text);
+        }
+
+        void update_position(float x, float y)
+        {
+            shape.setPosition(sf::Vector2f(x, y));
+            double x_pos = shape.getPosition().x + (shape.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f;
+            double y_pos = shape.getPosition().y + (shape.getGlobalBounds().height / 2.f) - this->text.getGlobalBounds().height / 2.f;
+            this->text.setPosition(x_pos - 10, y_pos - 10);
         }
     
         void update(const sf::Vector2f mouse_pos)

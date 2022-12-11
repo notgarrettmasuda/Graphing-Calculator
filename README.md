@@ -9,7 +9,11 @@ Version 1.0
   - what features have been implemented
 
 
-
+Version 1.01
+- Implemented:
+  - Now shows specific functions on the side while being able to delete specific ones
+  - tried to make as user friendly as possible
+  
 
 <br><br>
 
@@ -25,7 +29,7 @@ Version 1.0
 
 - Bugs
   - Known bugs
-  
+
 
 <br><br>
 
