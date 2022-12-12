@@ -13,7 +13,12 @@ Version 1.01
 - Implemented:
   - Now shows specific functions on the side while being able to delete specific ones
   - tried to make as user friendly as possible
-  
+
+- Bugs:
+  - Can't do negative numbers by themself
+  - Has some weird interactions with parenthesis
+  - However I found a temporary issue in making the tokenator start with 0 + an item unless it starts with a negative. Although this doesn't solve the issue if the user had another negative number within there function it only works if they start with a negative number
+
 
 <br><br>
 

@@ -4,7 +4,6 @@
 #include <iomanip>
 #include <set>
 #include <vector>
-#include <math.h>
 
 //------------------------------------------------------------------------------------------
 //Files we are testing:
@@ -17,7 +16,6 @@
 #include "../../includes/token/token.h"
 #include "../../includes/shunting_yard/shunting_yard.h"
 #include "../../includes/rpn/rpn.h"
-#include "../../includes/tokenator/tokenator.h"
 //------------------------------------------------------------------------------------------
 
 using namespace std;
@@ -37,16 +35,15 @@ bool test_rpn(bool debug = false)
   RPN rpn(postfix);
   cout << "3 5 *: " << rpn() << endl << endl;
 
-
   Queue<Token *> postfix2; // postfix expression: 3 X *
   postfix2.push(new Integer(3));
   postfix2.push(new Function("X"));
-  postfix2.push(new Operator("^"));
+  postfix2.push(new Operator("*"));
   rpn.set_input(postfix2);
   cout << "3 X *: (X=2): " << rpn(2) << endl << endl;
 
   Queue<Token *> postfix3; // postfix expression: 3 5 6 + X - * 9 /
-  /*postfix3.push(new Integer(3));
+  postfix3.push(new Integer(3));
   postfix3.push(new Integer(5));
   postfix3.push(new Integer(6));
   postfix3.push(new Operator("+"));
@@ -55,16 +52,6 @@ bool test_rpn(bool debug = false)
   postfix3.push(new Operator("*"));
   postfix3.push(new Integer(9));
   postfix3.push(new Operator("/"));
-  rpn.set_input(postfix3);
-  postfix3.push(new Integer(5));
-  postfix3.push(new Integer(1));
-  postfix3.push(new Integer(2));
-  postfix3.push(new Operator("+"));
-  postfix3.push(new Integer(4));
-  postfix3.push(new Operator("*"));
-  postfix3.push(new Operator("+"));
-  postfix3.push(new Integer(3));
-  postfix3.push(new Operator("-"));
   rpn.set_input(postfix3);
   cout << "3 5 6 + X - * 9 /: (X=2): " << rpn(2) << endl;
 
@@ -75,55 +62,35 @@ bool test_rpn(bool debug = false)
   for (Queue<Token*>::Iterator it = postfix2.begin(); it != postfix2.end(); ++it)
     delete *it;
 
-  cout << "\n\n--------- RPN DONE ---------\n\n" << endl;*/
+  cout << "\n\n--------- RPN DONE ---------\n\n" << endl;
   return true;
 }
 
 bool test_shunting_yard(bool debug = false)
 {
-  /*Queue<Token *> infix; // infix expression: 3 * 5
+  Queue<Token *> infix; // infix expression: 3 * 5
   infix.push(new Integer(3));
   infix.push(new Operator("*"));
-  infix.push(new Integer(5));*/
-  Queue<Token *> infix = tokenator("max(23, 3)");
-  cout << infix;
+  infix.push(new Integer(5));
   ShuntingYard sy(infix);
   Queue<Token*> postfix = sy.postfix(); // generate postfix
-  cout << postfix;
-  RPN rpn;
-  rpn.set_input(postfix);
-  cout << rpn(M_PI / 2) << endl;
+  cout << "3 * 5: " << postfix << endl;
 
   Queue<Token *> infix2;
-  infix2.push(new Function("max"));
-  infix2.push(new Integer(2));
-  //infix2.push(new Operator("+"));
   infix2.push(new Integer(3));
-  //infix2.push(new Integer(2));
-  
-
-  /*infix2.push(new Integer(3));
-  infix2.push(new Operator("+"));
-  infix2.push(new Integer(4));
   infix2.push(new Operator("*"));
-  infix2.push(new Integer(2));
-  infix2.push(new Operator("/"));
   infix2.push(new LeftParen());
-  infix2.push(new Integer(1));
-  infix2.push(new Operator("-"));
   infix2.push(new Integer(5));
+  infix2.push(new Operator("+"));
+  infix2.push(new Integer(6));
+  infix2.push(new Operator("-"));
+  infix2.push(new Function("X"));
   infix2.push(new RightParen());
   infix2.push(new Operator("^"));
-  infix2.push(new Integer(2));
-  infix2.push(new Operator("^"));
-  infix2.push(new Integer(3));*/
-
+  infix2.push(new Integer(-9));
   sy.infix(infix2);
   postfix = sy.postfix();
   cout << "3*(5+6-X)/9: " << postfix << endl;
-  RPN rpn2;
-  rpn2.set_input(postfix);
-  cout << rpn2(M_PI / 2) << endl;
 
   // iterator postfix queue
   ShuntingYard sy2;
