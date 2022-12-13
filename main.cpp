@@ -94,6 +94,10 @@ int main()
 
     Line y_line;
 
+    Button zoom_in(10, 10, 50, 50, &font, "+", sf::Color(150, 150, 150), sf::Color(100, 100, 100), sf::Color(50, 50, 50));
+
+    Button zoom_out(70, 10, 50, 50, &font, "-", sf::Color(150, 150, 150), sf::Color(100, 100, 100), sf::Color(50, 50, 50));
+
     Button y_line_delete_b;
 
     Textbox y_textbox(SCREEN_WIDTH - 200, 20, 24, true, font, 20);
@@ -105,6 +109,8 @@ int main()
     //Button test(SCREEN_WIDTH - 200, 100, 190, 50, &font, "", sf::Color(150, 150, 150), sf::Color(100, 100, 100), sf::Color(50, 50, 50));
 
     vector<Line> lines;
+
+    double zoom = 1;
 
     vector<Button> delete_lines;
     // run the program as long as the window is open
@@ -147,7 +153,7 @@ int main()
                             int delete_button_y_coord = 110 + (lines.size() * 70);
                             y_line_delete_b = Button(SCREEN_WIDTH - 200, delete_button_y_coord, 190, 50, &font, y_function, sf::Color(160, 210, 187), sf::Color(110, 160, 137), sf::Color(60, 110, 87));
                             Queue<Token *> infix = tokenator(y_function);
-                            y_line = Line(infix, -350, 350); 
+                            y_line = Line(infix, -350, 350, zoom); 
                             lines.push_back(y_line);
                             delete_lines.push_back(y_line_delete_b);
                         }
@@ -169,6 +175,27 @@ int main()
         else if (reset_all.is_pressed())
         {
             lines.clear();
+            zoom = 1;
+        }
+        else if (zoom_in.is_pressed())
+        {
+            zoom *= 2;
+            for (int i = 0; i < lines.size(); i++)
+            {
+                string temp = delete_lines[i].get_string();
+                Queue<Token *> infix = tokenator(temp);
+                lines[i] = Line(infix, -350, 350, zoom);
+            }
+        }
+        else if (zoom_out.is_pressed())
+        {
+            zoom *= 0.5;
+            for (int i = 0; i < lines.size(); i++)
+            {
+                string temp = delete_lines[i].get_string();
+                Queue<Token *> infix = tokenator(temp);
+                lines[i] = Line(infix, -350, 350, zoom);
+            }
         }
         for (int i = 0; i < lines.size(); i++)
         {
@@ -208,6 +235,10 @@ int main()
         }
         y_button.update(mouse_pos);
         y_button.draw(window);
+        zoom_in.update(mouse_pos);
+        zoom_in.draw(window);
+        zoom_out.update(mouse_pos);
+        zoom_out.draw(window);
         reset_all.update(mouse_pos);
         reset_all.draw(window);
         y_textbox.draw(window);

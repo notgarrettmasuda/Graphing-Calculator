@@ -229,13 +229,27 @@ bool Queue<T>::empty()
 template<typename T>
 T Queue<T>::front()
 {
-  return _at<T>(_front, 0);
+  if (!empty())
+  {
+    return _at<T>(_front, 0);
+  }
+  else
+  {
+    return T();
+  }
 }
 
 template<typename T>
 T Queue<T>::back()
 {
-  return _at<T>(_front, _size - 1);
+  if(!empty())
+  {
+    return _at<T>(_front, _size - 1);
+  }
+  else
+  {
+    return T();
+  }
 }
 
 template<typename U>

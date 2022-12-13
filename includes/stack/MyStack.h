@@ -218,7 +218,14 @@ bool Stack<T>::empty()
 template<typename T>
 T Stack<T>::top()
 {
+  if (!empty())
+  {
     return _at<T>(_top, 0);
+  }
+  else
+  {
+    return T();
+  }
 }
 
 template<typename U>

@@ -51,7 +51,6 @@ public:
       }
       else if (token->get_type() == OPERATOR)
       {
-        assert(num_stack.size() >= 2);
         double num1 = num_stack.top();
         num_stack.pop();
         double num2 = num_stack.top();

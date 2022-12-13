@@ -17,4 +17,7 @@ const int GRID_WIDTH = 200;
 const int GRID_HEIGHT = 110;
 const int CELL_SIZE = 5;
 
+const double GRAPH_WIDTH = 700;
+const double GRAPH_HEIGHT = 700;
+
 #endif //CONSTANTS_H

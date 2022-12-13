@@ -120,12 +120,12 @@ public:
         }
         assert(op_stack.top()->get_type() == LPAREN);
         op_stack.pop();
-        if (op_stack.top()->get_type() == FUNCTION)
+        /*if (op_stack.top()->get_type() == FUNCTION)
         {
           Token* temp_f = op_stack.top();
           res_queue.push(temp_f);
           op_stack.pop();
-        }
+        }*/
       }
       queue.pop();
     }

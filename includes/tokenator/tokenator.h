@@ -17,12 +17,7 @@ using namespace std;
 Queue<Token *> tokenator(string y_function)
 {
     Queue<Token *> res;
-    res.push(new Integer(0));
     int index = 0;
-    if (y_function[index] != '-')
-    {
-        res.push(new Operator("+"));
-    }
     while (index < y_function.size())
     {
         //Parenthesis

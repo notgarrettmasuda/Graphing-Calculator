@@ -17,7 +17,7 @@ class Line
 {
     public:
         Line() {}
-        Line(const Queue<Token*>& queue_input, double low_r, double high_r)
+        Line(const Queue<Token*>& queue_input, double low_r, double high_r, double zoom = 1)
         {
             ShuntingYard sy(queue_input);
             Queue<Token*> postfix = sy.postfix();
@@ -28,9 +28,9 @@ class Line
                 sf::CircleShape circle;
                 circle.setOrigin(-400 + RADIUS, -400 + RADIUS);
                 circle.setRadius(RADIUS);
-                double x = i * RESOLUTION;
-                double y = (rpn(i) * -1) * RESOLUTION;
-                if (x <= 350 && y <= 350)
+                double x = i * RESOLUTION * zoom;
+                double y = (rpn(i) * -1) * RESOLUTION * zoom;
+                if (x <= high_r && y <= high_r)
                 {
                     circle.setPosition(x, y);
                     circles.push_back(circle);
@@ -45,10 +45,11 @@ class Line
                 _window.draw(circles[i]);
             }
         }
-
+        
 
     private:
         vector<sf::CircleShape> circles;
+
 };
 
 

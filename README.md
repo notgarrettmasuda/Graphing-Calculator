@@ -19,6 +19,13 @@ Version 1.01
   - Has some weird interactions with parenthesis
   - However I found a temporary issue in making the tokenator start with 0 + an item unless it starts with a negative. Although this doesn't solve the issue if the user had another negative number within there function it only works if they start with a negative number
 
+Version 2.00
+- Implemented:
+  - Now can zoom in and zoom out
+  - Also fixed negative number bug and parenthesis bug
+
+- Bugs:
+  - Still has a fixed number of dots when I zoom in and zoom out
 
 <br><br>
 

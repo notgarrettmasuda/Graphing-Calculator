@@ -102,6 +102,11 @@ class Button
                     break;
             }
         }
+
+        string get_string()
+        {
+            return text.getString();
+        }
     
     private:
         short unsigned button_state;

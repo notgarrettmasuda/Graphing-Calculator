@@ -77,7 +77,7 @@ bool test_shunting_yard(bool debug = false)
   cout << "3 * 5: " << postfix << endl;
 
   Queue<Token *> infix2;
-  infix2.push(new Integer(3));
+  infix2.push(new Integer(-2));
   infix2.push(new Operator("*"));
   infix2.push(new LeftParen());
   infix2.push(new Integer(5));
