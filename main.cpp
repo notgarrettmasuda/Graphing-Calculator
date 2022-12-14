@@ -174,6 +174,7 @@ int main()
         }
         else if (reset_all.is_pressed())
         {
+            delete_lines.clear();
             lines.clear();
             zoom = 1;
         }
